@@ -80,6 +80,21 @@
                 namespace = ns_clz.namespace;
             var ns = this.findNameSpace(namespace,true);
             ns[clazzName] = clazz;
+        },
+
+        /**
+         * 注册namespace,
+         * 如果失败返回false
+         * @param spacename 命名空间名称
+         * @param namespace 命名空间实体
+         * @return {X.NamsSpaceManager|Boolean} this
+         */
+        registerNameSpace:function(spacename,namespace){
+            if(!namespace){
+                return false;
+            }
+            this._namespaceList[spacename] = namespace;
+            return this;
         }
     });
     /**
@@ -89,6 +104,7 @@
      * @type {NameSpaceManage}
      */
     X.NameSpaceManager = NameSpaceManager.new();
+    X.NameSpaceManager.registerNameSpace("X",X);
 
     this.X = X;
 }).call(this)

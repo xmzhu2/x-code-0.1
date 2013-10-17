@@ -114,7 +114,7 @@
      * @param isArrayItem {Object}
      * @return {Boolean}
      */
-    X.Util.isArray = function (isArrayItem) {
+    var isArray = X.Util.isArray = function (isArrayItem) {
         return Object.prototype.toString.call(isArrayItem) === "[object Array]";
     };
 
@@ -197,6 +197,8 @@
         },
         /**
          * 定义类
+         * <br/>
+         * extend 存在默认属性interfaces,允许多接口
          * @method define
          * @static
          * @param className {String} 类名称（可以带上命名空间）
@@ -227,6 +229,22 @@
             object.created();
             this.inherited(object);
 
+            //如果存在interface集成interface
+            if(object.interfaces && isArray(object.interfaces)){
+                for(var i = 0; i < object.interfaces.length ; i ++){
+                    var interface = object.interfaces[i];
+                    if(typeof interface =='String' || typeof interface =='string'){
+                        var nsA = X.NameSpaceManager.analyzeNameSpace(interface);
+                        var ns = X.NameSpaceManager.findNameSpace(nsA.namespace);
+                        if(ns){
+                            interface = ns[nsA.clazz];
+                        }else{
+                            interface = {};
+                        }
+                    }
+                    object.include(interface);
+                }
+            }
             if(defaultClass.indexOf(className) == -1){
                 X.NameSpaceManager.register(className,object);
             }

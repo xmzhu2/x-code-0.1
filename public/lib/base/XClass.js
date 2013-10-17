@@ -45,6 +45,7 @@
     /**
      * 深度拷贝
      * @method clone
+     * @for X.Util
      * @param item
      * @return {*}
      */

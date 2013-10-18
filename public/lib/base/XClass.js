@@ -145,6 +145,32 @@
         return -1;
     };
 
+    /**
+     * each调用<br/>
+     * 简单版本 目前只支持array
+     * @method each
+     * @param arr {Object|Array}
+     * @param callback {Function} 执行方法|function(data,index){}
+     */
+    X.Util.each = function(arr,callback){
+
+        if(isArray(arr)){
+            for(var i = 0 ; i < arr.length ; i++){
+                if(callback){
+                    callback(arr[i],i);
+                }
+            }
+        }
+    }
+
+    /**
+     * 空函数
+     * @for X.Util
+     * @attribute emptyFn
+     * @type {Function}
+     */
+    X.Util.emptyFn = function(){};
+
     var moduleKeywords = ["included", "extended"];
 
     //  init 是构造函数可以重写
@@ -269,6 +295,11 @@
             var instance = Object.create(this.prototype);
             instance.parent = this;
             instance._super = this.new;
+
+            instance.getClassName = function(){
+                return this.parent.$X_ClassName;
+            }
+
             instance.initialize.apply(instance, arguments);
             instance.init.apply(instance, arguments);
             return instance;
